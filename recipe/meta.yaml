@@ -12,18 +12,22 @@ source:
 
 build:
   number: 0
+  skip: True  # [py<36]
   script: VERSION=v{{ version }} {{ PYTHON }} -m pip install . -vv
   noarch: python
 
 requirements:
   host:
-    - python >=3.6
+    - python
     - pip
     - setuptools
+    - wheel
   run:
     - python >=3.6
 
 test:
+  requires:
+    - python <3.10
   imports:
     - flatbuffers
     - flatbuffers.builder
