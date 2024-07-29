@@ -1,6 +1,6 @@
 {% set name = "python-flatbuffers" %}
 {% set pypi_name = "flatbuffers" %}
-{% set version = "2.0" %}
+{% set version = "24.3.25" %}
 
 package:
   name: {{ name|lower }}
@@ -8,13 +8,11 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ pypi_name[0] }}/{{ pypi_name }}/{{ pypi_name }}-{{ version }}.tar.gz
-  sha256: 12158ab0272375eab8db2d663ae97370c33f152b27801fa6024e1d6105fd4dd2
+  sha256: de2ec5b203f21441716617f38443e0a8ebf3d25bf0d9c0bb0ce68fa00ad546a4
 
 build:
   number: 0
-  skip: True  # [py<36]
-  script: VERSION=v{{ version }} {{ PYTHON }} -m pip install . -vv
-  noarch: python
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   host:
@@ -23,26 +21,27 @@ requirements:
     - setuptools
     - wheel
   run:
-    - python >=3.6
+    - python
 
 test:
   requires:
-    - python <3.10
+    - pip
+  commands:
+    - pip check
   imports:
     - flatbuffers
     - flatbuffers.builder
     - flatbuffers.table
 
 about:
-  home: https://google.github.io/flatbuffers/
+  home: https://flatbuffers.dev/
   license: Apache-2.0
   license_family: Apache
   license_file: LICENSE.txt
-  summary: Python runtime library for use with the Flatbuffers serialization format.
+  summary: The FlatBuffers serialization format for Python
   description: |
     FlatBuffers is an efficient cross platform serialization library for C++, C#, C, Go, Java, JavaScript, Lobster, Lua, TypeScript, PHP, Python, and Rust. It was originally created at Google for game development and other performance-critical applications. This package is the python runtime library. The flatc compiler is in the flatbuffers conda package.
-  doc_url: https://google.github.io/flatbuffers/
-  doc_source_url: https://github.com/google/flatbuffers/tree/master/docs
+  doc_url: https://flatbuffers.dev/
   dev_url: https://github.com/google/flatbuffers
 
 extra:
